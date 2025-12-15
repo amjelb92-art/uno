@@ -9,13 +9,10 @@ class Carte:
         return self.color == other.color or self.numero == other.numero
     
     def __str__(self):
-        return f"({self.numero},{self.color},{self.capa})"
+        return '({},{},{})'.format(self.numero, self.color, self.capa)
 
-
-   
-class Pile :
-
-
+class Pile:
+    
     def __init__(self):
         self.contenu = []
 
@@ -58,15 +55,22 @@ def main_depart(x):
 
 def poiche(x, a):
     a.empile(x.depile())
-
+    
+def affiche(x):
+    anex= Pile()
+    while not x.est_vide():
+        i = x.depile()
+        print(i)
+        anex.empile(i)
+    while not anex.est_vide():
+        x.empile(anex.depile())
 t = ["0b","1b","2b","3b","4b","5b","6b","7b","8b","9b","0r","1r","2r","3r","4r","5r","6r","7r","8r","9r"
 "0v","1v","2v","3v","4v","5v","6v","7v","8v","9v","0j","1j","2j","3j","4j","5j","6j","7j","8j","9j","0b","1b","2b","3b","4b","5b","6b","7b","8b","9b","0r","1r","2r","3r","4r","5r","6r","7r","8r","9r",
 "0v","1v","2v","3v","4v","5v","6v","7v","8v","9v","0j","1j","2j","3j","4j","5j","6j","7j","8j","9j"]
-
+tab = [Carte(1,'r', None),Carte(2, 'r', None),Carte(3, 'r', None),Carte(4, 'r', None)]
 v = Pile()
-for i in t:
+for i in tab:
     v.empile(i)
 melange(v)
 a = main_depart(v)
 k= Carte(2, 'r', None)
-
