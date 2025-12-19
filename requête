@@ -1,1 +1,4 @@
 ici on peut deposer les requette et question si necesaire
+
+il faut que on rajoute une fonction qui autorise uniquement les nombres qu'on a le droit de cliker sinon index error ( il faut faire en fonction du nombre d'indice proporser)
++ il faut que quand on pioche ca re affiche la carte sur le top 
