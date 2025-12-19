@@ -45,16 +45,14 @@ def melange(a):
                 a.empile(anex.depile())
             if not anex2.est_vide():
                 a.empile(anex2.depile())
-    return a
-
 def main_depart(x):
     a = Pile()
     for i in range(7):
         a.empile(x.depile())
     return a
 
-def poiche(x, a):
-    a.empile(x.depile())
+def pioche(deck, a):
+    a.empile(deck.depile())
     
 def affiche(x):
     anex= Pile()
@@ -64,16 +62,16 @@ def affiche(x):
         anex.empile(i)
     while not anex.est_vide():
         x.empile(anex.depile())
-t = ["0b","1b","2b","3b","4b","5b","6b","7b","8b","9b","0r","1r","2r","3r","4r","5r","6r","7r","8r","9r"
-"0v","1v","2v","3v","4v","5v","6v","7v","8v","9v","0j","1j","2j","3j","4j","5j","6j","7j","8j","9j","0b","1b","2b","3b","4b","5b","6b","7b","8b","9b","0r","1r","2r","3r","4r","5r","6r","7r","8r","9r",
-"0v","1v","2v","3v","4v","5v","6v","7v","8v","9v","0j","1j","2j","3j","4j","5j","6j","7j","8j","9j"]
-tab = [Carte(1,'r', None),Carte(2, 'r', None),Carte(3, 'r', None),Carte(4, 'r', None)]
-v = Pile()
-for i in tab:
-    v.empile(i)
-melange(v)
-a = main_depart(v)
-k= Carte(2, 'r', None)
-def cree_tab():
-    v = Pile()
-    v.empile(Carte(i, 'r',None))
+def cree_deck():
+    deck = Pile()
+    for j in range(2):
+       for i in range(10):
+           deck.empile(Carte(i,'R',None))
+           deck.empile(Carte(i,'J',None))
+           deck.empile(Carte(i,'V',None))
+           deck.empile(Carte(i,'B',None))
+    return deck
+m = cree_deck()
+melange(m)
+a = main_depart(m)
+affiche(a)
