@@ -29,6 +29,7 @@ class Pile:
 
     def __repr__(self):
         return repr(self.contenu)
+    
 def melange(a):
     anex = Pile()
     anex2 = Pile()
@@ -45,23 +46,43 @@ def melange(a):
                 a.empile(anex.depile())
             if not anex2.est_vide():
                 a.empile(anex2.depile())
-def main_depart(x):
+def main_depart(main):
     a = Pile()
     for i in range(7):
-        a.empile(x.depile())
+        a.empile(main.depile())
     return a
 
 def pioche(deck, a):
     a.empile(deck.depile())
     
-def affiche(x):
+def affiche_carte_jouer(x):
+    i = x.depile()
+    print('if faut jouer sur la carte : ', i)
+    x.empile(i)
+        
+def choix_carte(deck, x):
     anex= Pile()
+    carte_choisi = Pile()
+    c = 0
     while not x.est_vide():
         i = x.depile()
-        print(i)
+        print(c,':', i)
+        c += 1
         anex.empile(i)
     while not anex.est_vide():
         x.empile(anex.depile())
+    print(c, ':', 'pioche')
+    choix = int(input('choisi le numéro à gauche de la carte que tu veux jouer sinon pioches : ' ))             
+    if c == choix:
+        pioche(deck, x)
+        return "c'est toujour la même carte"
+    for i in range(choix + 1):
+        anex.empile(x.depile())
+    carte_choisi.empile(anex.depile())
+    while not anex.est_vide():
+        x.empile(anex.depile())
+    return carte_choisi.depile()
+                      
 def cree_deck():
     deck = Pile()
     for j in range(2):
@@ -71,7 +92,28 @@ def cree_deck():
            deck.empile(Carte(i,'V',None))
            deck.empile(Carte(i,'B',None))
     return deck
-m = cree_deck()
-melange(m)
-a = main_depart(m)
-affiche(a)
+
+def grand_blanc():
+    return print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+    
+def start():
+    pile_jeux = Pile()
+    deck = cree_deck()
+    carte = Pile()
+    melange(deck)
+    pile_jeux.empile(deck.depile())
+    j1 = main_depart(deck)
+    j2 = main_depart(deck)
+    affiche_carte_jouer(pile_jeux)
+    while not j1.est_vide() or j2.est_vide():
+        carte.empile(choix_carte(deck, j1))
+        grand_blanc()
+        affiche_carte_jouer(carte)
+        carte.empile(choix_carte(deck, j1))
+        grand_blanc()
+        affiche_carte_jouer(carte)
+    if j1.est_vide():
+        return print('Joueur1 a gagner')
+    if j2.est_vide():
+        return print('Joueur2 a gagner')
+start()
