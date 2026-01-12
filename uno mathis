@@ -57,7 +57,7 @@ def pioche(deck, a):
     
 def affiche_carte_jouer(x):
     i = x.depile()
-    print('if faut jouer sur la carte : ', i)
+    print('iL faut jouer sur la carte : ', i)
     x.empile(i)
         
 def choix_carte(deck, x):
@@ -91,29 +91,50 @@ def cree_deck():
            deck.empile(Carte(i,'J',None))
            deck.empile(Carte(i,'V',None))
            deck.empile(Carte(i,'B',None))
+           deck.empile(Carte(None,'None','+4'))
     return deck
 
 def grand_blanc():
-    return print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
-    
+    return print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
+
 def start():
     pile_jeux = Pile()
     deck = cree_deck()
     carte = Pile()
-    melange(deck)
+    melange(deck)    
     pile_jeux.empile(deck.depile())
     j1 = main_depart(deck)
     j2 = main_depart(deck)
     affiche_carte_jouer(pile_jeux)
     while not j1.est_vide() or j2.est_vide():
         carte.empile(choix_carte(deck, j1))
+        i = carte.depile()
+        if i.capa == '+2':
+            pioche(deck, j2)
+            pioche(deck, j2)
+        if i.capa == '+4':
+            for i in range(4):
+                pioche(deck, j2)
+        if i.capa == 'pass':
+           carte.empile(choix_carte(deck, j1))
+        grand_blanc()
+        carte.empile(i)
+        affiche_carte_jouer(carte)
+        carte.empile(choix_carte(deck, j2))
+        i = carte.depile()
+        if i.capa == '+2':
+            pioche(deck, j1)
+            pioche(deck, j1)
+        if i.capa == '+4':
+            for i in range(4):
+                pioche(deck, j1)
+        if  i.capa == 'pass1':
+            carte.empile(choix_carte(deck, j2))
         grand_blanc()
         affiche_carte_jouer(carte)
-        carte.empile(choix_carte(deck, j1))
-        grand_blanc()
-        affiche_carte_jouer(carte)
-    if j1.est_vide():
-        return print('Joueur1 a gagner')
-    if j2.est_vide():
-        return print('Joueur2 a gagner')
+        if len(j1.contenu)== 1:
+            return print('Joueur1 a gagner')
+        if len(j2.contenu)== 1:
+            return print('Joueur2 a gagner')
 start()
+
