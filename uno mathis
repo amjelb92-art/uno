@@ -30,111 +30,129 @@ class Pile:
     def __repr__(self):
         return repr(self.contenu)
     
-def melange(a):
+def melange(deck):
     anex = Pile()
     anex2 = Pile()
     for i in range(10):
-        for _ in range(randint(0, 80)):
-            if not a.est_vide():
-                anex.empile(a.depile())
+        for j in range(randint(0, 100)):
+            if not deck.est_vide():
+                anex.empile(deck.depile())
             else:
                 break
-        while not a.est_vide():
-            anex2.empile(a.depile())
+        while not deck.est_vide():
+            anex2.empile(deck.depile())
         while not anex.est_vide() or not anex2.est_vide():
             if not anex.est_vide():
-                a.empile(anex.depile())
+                deck.empile(anex.depile())
             if not anex2.est_vide():
-                a.empile(anex2.depile())
-def main_depart(main):
-    a = Pile()
+                deck.empile(anex2.depile())
+                
+def main_depart(deck):
+    main = Pile()
     for i in range(7):
-        a.empile(main.depile())
-    return a
+        main.empile(deck.depile())
+    return main
 
-def pioche(deck, a):
-    a.empile(deck.depile())
-    
-def affiche_carte_jouer(x):
-    i = x.depile()
-    print('iL faut jouer sur la carte : ', i)
-    x.empile(i)
+
+def pioche(deck, joueur):
+    joueur.empile(deck.depile())
+
         
-def choix_carte(deck, x):
+def choix_carte(deck, joueur):
     anex= Pile()
     carte_choisi = Pile()
     c = 0
-    while not x.est_vide():
-        i = x.depile()
+    while not joueur.est_vide():
+        i = joueur.depile()
         print(c,':', i)
         c += 1
         anex.empile(i)
     while not anex.est_vide():
-        x.empile(anex.depile())
+        joueur.empile(anex.depile())
     print(c, ':', 'pioche')
     choix = int(input('choisi le numéro à gauche de la carte que tu veux jouer sinon pioches : ' ))             
     if c == choix:
-        pioche(deck, x)
-        return "c'est toujour la même carte"
+        pioche(deck, joueur)
+        return 1
     for i in range(choix + 1):
-        anex.empile(x.depile())
+        anex.empile(joueur.depile())
     carte_choisi.empile(anex.depile())
     while not anex.est_vide():
-        x.empile(anex.depile())
+        joueur.empile(anex.depile())
     return carte_choisi.depile()
+
                       
 def cree_deck():
     deck = Pile()
     for j in range(2):
        for i in range(10):
-           deck.empile(Carte(i,'R',None))
-           deck.empile(Carte(i,'J',None))
-           deck.empile(Carte(i,'V',None))
-           deck.empile(Carte(i,'B',None))
-           deck.empile(Carte(None,'None','+4'))
+           deck.empile(Carte(i,'R','-'))
+           deck.empile(Carte(i,'J','-'))
+           deck.empile(Carte(i,'V','-'))
+           deck.empile(Carte(i,'B','-'))
+       for i in range(4):   
+           deck.empile(Carte('-','-','+4'))
+       for i in range(2):
+           deck.empile(Carte('-','R','+2'))
+           deck.empile(Carte('-','J','+2'))
+           deck.empile(Carte('-','V','+2'))
+           deck.empile(Carte('-','B','+2'))
+           deck.empile(Carte('-','R','pass'))
+           deck.empile(Carte('-','J','pass'))
+           deck.empile(Carte('-','V','pass'))
+           deck.empile(Carte('-','B','pass'))
     return deck
+
 
 def grand_blanc():
     return print('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n')
 
+
+def special(deck, carte ,joueur, joueur2):
+    if carte.capa == '+2':
+        pioche(deck, joueur)
+        pioche(deck, joueur)
+        return carte
+    if carte.capa == '+4':
+        for j in range(4):
+            pioche(deck, joueur)
+        return carte
+    else:
+        print("il faut joue sur la carte : ",carte, '\n Mais pas le droit de mettre des cartes special')
+        return choix_carte(deck, joueur2)
+
+    
+
 def start():
     pile_jeux = Pile()
     deck = cree_deck()
-    carte = Pile()
     melange(deck)    
     pile_jeux.empile(deck.depile())
     j1 = main_depart(deck)
     j2 = main_depart(deck)
-    affiche_carte_jouer(pile_jeux)
-    while not j1.est_vide() or j2.est_vide():
-        carte.empile(choix_carte(deck, j1))
-        i = carte.depile()
-        if i.capa == '+2':
-            pioche(deck, j2)
-            pioche(deck, j2)
-        if i.capa == '+4':
-            for i in range(4):
-                pioche(deck, j2)
-        if i.capa == 'pass':
-           carte.empile(choix_carte(deck, j1))
+    print("JOUEUR 1 : il faut joue sur la carte : ",pile_jeux.depile())
+    while not deck.est_vide():
+        carte = choix_carte(deck, j1)
+        if carte != 1 : 
+            if carte.capa != '-' :
+                carte = special(deck, carte, j2, j1)
+        if len(j1.contenu)== 0 :
+            return print('Joueur 1 a gagner')
         grand_blanc()
-        carte.empile(i)
-        affiche_carte_jouer(carte)
-        carte.empile(choix_carte(deck, j2))
-        i = carte.depile()
-        if i.capa == '+2':
-            pioche(deck, j1)
-            pioche(deck, j1)
-        if i.capa == '+4':
-            for i in range(4):
-                pioche(deck, j1)
-        if  i.capa == 'pass1':
-            carte.empile(choix_carte(deck, j2))
+        if carte != 1:   
+            print("JOUEUR 2 : il faut joue sur la carte : ",carte)
+        else:
+            print('JOUEUR 2 : il faut jouer sur le même carte')
+        carte = choix_carte(deck, j2)
+        if carte != 1 :
+            if carte.capa != '-' :
+                carte = special(deck, carte, j1, j2)
+        if len(j2.contenu)== 0:
+                return print('Joueur 2 a gagner')
         grand_blanc()
-        affiche_carte_jouer(carte)
-        if len(j1.contenu)== 1:
-            return print('Joueur1 a gagner')
-        if len(j2.contenu)== 1:
-            return print('Joueur2 a gagner')
+        if carte != 1:   
+            print("JOUEUR 1 : il faut joue sur la carte : ",carte)
+        else:
+            print('JOUEUR 1 : il faut jouer sur le même carte')
+    return 'il y a pas de gangant'
 start()
-
