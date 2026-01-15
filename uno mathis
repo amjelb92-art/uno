@@ -70,7 +70,7 @@ def choix_carte(deck, joueur):
     while not anex.est_vide():
         joueur.empile(anex.depile())
     print(c, ':', 'pioche')
-    choix = int(input('choisi le numéro à gauche de la carte que tu veux jouer sinon pioches : ' ))             
+    choix = int(input('choisi le numéro à gauche de la carte que tu veux jouer sinon pioche : ' ))             
     if c == choix:
         pioche(deck, joueur)
         return 1
@@ -92,6 +92,7 @@ def cree_deck():
            deck.empile(Carte(i,'B','-'))
        for i in range(4):   
            deck.empile(Carte('-','-','+4'))
+           deck.empile(Carte('-','-','color'))
        for i in range(2):
            deck.empile(Carte('-','R','+2'))
            deck.empile(Carte('-','J','+2'))
@@ -117,9 +118,15 @@ def special(deck, carte ,joueur, joueur2):
         for j in range(4):
             pioche(deck, joueur)
         return carte
+    if carte.capa == 'color':
+        c = input('choisi une couleur : ')
+        return ('-',c ,'-')
     else:
         print("il faut joue sur la carte : ",carte, '\n Mais pas le droit de mettre des cartes special')
-        return choix_carte(deck, joueur2)
+        carte2 = choix_carte(deck, joueur2)
+        if carte2 == 1:
+            return carte
+        return carte2
 
     
 
@@ -130,8 +137,11 @@ def start():
     pile_jeux.empile(deck.depile())
     j1 = main_depart(deck)
     j2 = main_depart(deck)
-    print("JOUEUR 1 : il faut joue sur la carte : ",pile_jeux.depile())
+    carte = pile_jeux.depile()
+    print("JOUEUR 1 : il faut joue sur la carte : ",carte)
     while not deck.est_vide():
+        if carte != 1:
+            carte2 = carte
         carte = choix_carte(deck, j1)
         if carte != 1 : 
             if carte.capa != '-' :
@@ -142,7 +152,9 @@ def start():
         if carte != 1:   
             print("JOUEUR 2 : il faut joue sur la carte : ",carte)
         else:
-            print('JOUEUR 2 : il faut jouer sur le même carte')
+            print('JOUEUR 2 : il faut jouer sur la carte : ',carte2)
+        if carte != 1:
+            carte2 = carte
         carte = choix_carte(deck, j2)
         if carte != 1 :
             if carte.capa != '-' :
@@ -153,6 +165,6 @@ def start():
         if carte != 1:   
             print("JOUEUR 1 : il faut joue sur la carte : ",carte)
         else:
-            print('JOUEUR 1 : il faut jouer sur le même carte')
+            print('JOUEUR 1 : il faut jouer sur la carte : ',carte2)
     return 'il y a pas de gangant'
 start()
