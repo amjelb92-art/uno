@@ -34,7 +34,7 @@ def melange(deck):
     anex = Pile()
     anex2 = Pile()
     for i in range(10):
-        for j in range(randint(0, 100)):
+        for j in range(randint(0, 104)):
             if not deck.est_vide():
                 anex.empile(deck.depile())
             else:
@@ -122,7 +122,7 @@ def special(deck, carte ,joueur, joueur2):
         c = input('choisi une couleur : ')
         return ('-',c ,'-')
     else:
-        print("il faut joue sur la carte : ",carte, '\n Mais pas le droit de mettre des cartes special')
+        print("il faut jouer sur la carte : ",carte, '\n Mais pas le droit de mettre des cartes special')
         carte2 = choix_carte(deck, joueur2)
         if carte2 == 1:
             return carte
@@ -138,7 +138,7 @@ def start():
     j1 = main_depart(deck)
     j2 = main_depart(deck)
     carte = pile_jeux.depile()
-    print("JOUEUR 1 : il faut joue sur la carte : ",carte)
+    print("JOUEUR 1 : il faut jouer sur la carte : ",carte)
     while not deck.est_vide():
         if carte != 1:
             carte2 = carte
@@ -150,7 +150,7 @@ def start():
             return print('Joueur 1 a gagner')
         grand_blanc()
         if carte != 1:   
-            print("JOUEUR 2 : il faut joue sur la carte : ",carte)
+            print("JOUEUR 2 : il faut jouer sur la carte : ",carte)
         else:
             print('JOUEUR 2 : il faut jouer sur la carte : ',carte2)
         if carte != 1:
@@ -163,8 +163,8 @@ def start():
                 return print('Joueur 2 a gagner')
         grand_blanc()
         if carte != 1:   
-            print("JOUEUR 1 : il faut joue sur la carte : ",carte)
+            print("JOUEUR 1 : il faut jouer sur la carte : ",carte)
         else:
             print('JOUEUR 1 : il faut jouer sur la carte : ',carte2)
-    return 'il y a pas de gangant'
+    return "il n'y a pas de gangant"
 start()
