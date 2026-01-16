@@ -90,18 +90,18 @@ def cree_deck():
            deck.empile(Carte(i,'J','-'))
            deck.empile(Carte(i,'V','-'))
            deck.empile(Carte(i,'B','-'))
-       for i in range(4):   
-           deck.empile(Carte('-','-','+4'))
-           deck.empile(Carte('-','-','color'))
-       for i in range(2):
-           deck.empile(Carte('-','R','+2'))
-           deck.empile(Carte('-','J','+2'))
-           deck.empile(Carte('-','V','+2'))
-           deck.empile(Carte('-','B','+2'))
-           deck.empile(Carte('-','R','pass'))
-           deck.empile(Carte('-','J','pass'))
-           deck.empile(Carte('-','V','pass'))
-           deck.empile(Carte('-','B','pass'))
+    for i in range(4):   
+        deck.empile(Carte('-','-','+4'))
+        deck.empile(Carte('-','-','color'))
+    for i in range(2):
+        deck.empile(Carte('-','R','+2'))
+        deck.empile(Carte('-','J','+2'))
+        deck.empile(Carte('-','V','+2'))
+        deck.empile(Carte('-','B','+2'))
+        deck.empile(Carte('-','R','pass'))
+        deck.empile(Carte('-','J','pass'))
+        deck.empile(Carte('-','V','pass'))
+        deck.empile(Carte('-','B','pass'))
     return deck
 
 
