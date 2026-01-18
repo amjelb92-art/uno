@@ -166,5 +166,5 @@ def start():
             print("JOUEUR 1 : il faut jouer sur la carte : ",carte)
         else:
             print('JOUEUR 1 : il faut jouer sur la carte : ',carte2)
-    return "il n'y a pas de gangant"
+    return "il n'y a pas de gagnant"
 start()
