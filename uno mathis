@@ -120,16 +120,28 @@ def special(deck, carte ,joueur, joueur2):
         return carte
     if carte.capa == 'color':
         c = input('choisi une couleur : ')
-        return ('-',c ,'-')
+        return Carte('-',c ,'-')
     else:
         print("il faut jouer sur la carte : ",carte, '\n Mais pas le droit de mettre des cartes special')
         carte2 = choix_carte(deck, joueur2)
         if carte2 == 1:
             return carte
+        if carte.color != carte2.color:
+            return False
         return carte2
-
     
+def verification(carte, carte2):
+    if carte.capa == '+4' or carte2.capa == '+4' :
+        return False
+    if carte.capa == 'color':
+        return False
+    if carte.est_bonne(carte2):
+        return False
+    return True
 
+
+
+        
 def start():
     pile_jeux = Pile()
     deck = cree_deck()
@@ -143,13 +155,17 @@ def start():
         if carte != 1:
             carte2 = carte
         carte = choix_carte(deck, j1)
-        if carte != 1 : 
+        if carte != 1 :
+            if verification(carte, carte2) :
+                return print('JOUEUR 1 a perdu car la carte joué est pas bonne  ')
             if carte.capa != '-' :
                 carte = special(deck, carte, j2, j1)
+                if carte == False:
+                    return print('JOUEUR 1 a perdu car la carte joué est pas bonne  ')
         if len(j1.contenu)== 0 :
             return print('Joueur 1 a gagner')
         grand_blanc()
-        if carte != 1:   
+        if carte != 1:
             print("JOUEUR 2 : il faut jouer sur la carte : ",carte)
         else:
             print('JOUEUR 2 : il faut jouer sur la carte : ',carte2)
@@ -157,8 +173,12 @@ def start():
             carte2 = carte
         carte = choix_carte(deck, j2)
         if carte != 1 :
+            if verification(carte, carte2):
+                return print('JOUEUR 2 a perdu car la carte joué est pas bonne ')
             if carte.capa != '-' :
                 carte = special(deck, carte, j1, j2)
+                if carte == False:
+                    return print('JOUEUR 2 a perdu car la carte joué est pas bonne  ')
         if len(j2.contenu)== 0:
                 return print('Joueur 2 a gagner')
         grand_blanc()
